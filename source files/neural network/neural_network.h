@@ -36,10 +36,6 @@ int NEURAL_NETWORK_layer_link(NeuralNetwork *instance);
 
 int NEURAL_NETWORK_update(NeuralNetwork *instance, int height, int width);
 
-// int NEURAL_NETWORK_process(NeuralNetwork *instance);
-
-// int NEURAL_NETWORK_get_output(NeuralNetwork *instance);
-
-// void NEURAL_NETWORK_cleanup(NeuralNetwork *instance);
+int NEURAL_NETWORK_process(NeuralNetwork *instance);
 
 #endif // NEURAL_NETWORK_H

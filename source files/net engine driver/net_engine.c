@@ -42,6 +42,8 @@
 
 static u32* dma_input_ptr;
 static u32  global_row_length;
+static int count = 0;
+static int img_received = 1;
 
 /************************** Function Definitions ***************************/
 u32 checkIdle(u32 baseAddress,u32 offset){
@@ -49,9 +51,6 @@ u32 checkIdle(u32 baseAddress,u32 offset){
 	status = (XAxiDma_ReadReg(baseAddress,offset))&XAXIDMA_IDLE_MASK;
 	return status;
 }
-
-int count = 0;
-int img_received = 1;
 
 static void row_completed_ISR(void *CallBackRef){
 	u32 IrqStatus;
@@ -61,14 +60,6 @@ static void row_completed_ISR(void *CallBackRef){
 
     u32* temp = dma_input_ptr;
 
-    // xil_printf("%d image pointer %p \r\n", count, temp);
-
-    // status = checkIdle(instance->dma_inst.RegBase,0x4);
-	// while(status == 0){
-	// 	status = checkIdle(instance->dma_inst.RegBase,0x4);
-    //     xil_printf("\timageProcISR status %d\n", status);
-    // }
-
 #ifdef PROCESS_TIME_MEASURE
     measure_start(TIME_MEASURE_SIGNAL_4);
 #endif
@@ -76,9 +67,6 @@ static void row_completed_ISR(void *CallBackRef){
     instance = (Net_Engine_Inst*) CallBackRef;
 
     count++;
-
-    // xil_printf("imageProcISR %08x, %d\n", instance->cur_data.input, count);
-    // xil_printf("\tReg Status -  %04x\n", instance->net_engine_regs->Status_3);
 	XScuGic_Disable(&(instance->intc_inst), instance->config.row_complete_isr_id);
     if(img_received){
         status = XAxiDma_SimpleTransfer(&(instance->dma_inst), dma_input_ptr + 6 , NET_ENGINE_SEND_LENGTH(global_row_length), XAXIDMA_DMA_TO_DEVICE);
@@ -89,34 +77,17 @@ static void row_completed_ISR(void *CallBackRef){
 #ifdef PROCESS_TIME_MEASURE
     measure_end(TIME_MEASURE_SIGNAL_4);
 #endif
+
 }
 
 
 void check_dma_status(XAxiDma *dma_inst);
 static void received_ISR(void *CallBackRef){
-    // u32 IrqStatus;
     Net_Engine_Inst *instance;
     instance = (Net_Engine_Inst*) CallBackRef;
 
-	// XAxiDma_IntrDisable(&(instance->dma_inst), XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
-	// XAxiDma_IntrAckIrq(&(instance->dma_inst), XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
-
-    // IrqStatus = XAxiDma_IntrGetIrq(&(instance->dma_inst), XAXIDMA_DEVICE_TO_DMA);
-    // XAxiDma_IntrAckIrq(&(instance->dma_inst), IrqStatus, XAXIDMA_DEVICE_TO_DMA);
-    // check_dma_status(&(instance->dma_inst));
-    // xil_printf("RxIntrHandle 1 %04X \r\n", IrqStatus);
-    // XScuGic_Disable(&(instance->intc_inst), instance->config.receive_isr_id);
-	/* Acknowledge pending interrupts */
 	instance->cur_data.state = NET_STATE_COMPLETED;
     img_received = 0;
-    // xil_printf("dmaReceiveISR\n");
-
-
-    // XScuGic_Enable(&(instance->intc_inst), instance->config.receive_isr_id);
-	// XAxiDma_IntrEnable(&(instance->dma_inst), XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
-    // XScuGic_Enable(&(instance->intc_inst), instance->config.receive_isr_id);
-    // IrqStatus = XAxiDma_IntrGetIrq(&(instance->dma_inst), XAXIDMA_DEVICE_TO_DMA);
-    // xil_printf("RxIntrHandle 2 %04X \r\n", IrqStatus);
 }
 
 NET_STATUS NET_ENGINE_dma_setup(Net_Engine_Inst *instance, UINTPTR dmaaddr_p){

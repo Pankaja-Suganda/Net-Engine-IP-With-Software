@@ -4,103 +4,10 @@
 #include <string.h>
 #include <xil_printf.h>
 
-// #define STRIDE 2
-// #define CELLSIZE 12
 #define STRIDE   1
 #define CELLSIZE 20
 #define NMS_THRESHOLD 0.5
 
-// // Utility function to transpose a matrix
-// void transpose(float *src, float *dest, int width, int height) {
-//     for (int i = 0; i < height; ++i) {
-//         for (int j = 0; j < width; ++j) {
-//             dest[j * height + i] = src[i * width + j];
-//         }
-//     }
-// }
-
-// // Utility function to perform NMS
-// void non_maximum_suppression(float *boxes, int num_boxes, float threshold, const char *method, int *pick, int *num_pick) {
-//     if (num_boxes == 0) {
-//         *num_pick = 0;
-//         return;
-//     }
-
-//     float *x1 = (float *)malloc(num_boxes * sizeof(float));
-//     float *y1 = (float *)malloc(num_boxes * sizeof(float));
-//     float *x2 = (float *)malloc(num_boxes * sizeof(float));
-//     float *y2 = (float *)malloc(num_boxes * sizeof(float));
-//     float *s = (float *)malloc(num_boxes * sizeof(float));
-//     float *area = (float *)malloc(num_boxes * sizeof(float));
-
-//     // Extract box coordinates and scores
-//     for (int i = 0; i < num_boxes; ++i) {
-//         x1[i] = boxes[i * 5 + 0];
-//         y1[i] = boxes[i * 5 + 1];
-//         x2[i] = boxes[i * 5 + 2];
-//         y2[i] = boxes[i * 5 + 3];
-//         s[i] = boxes[i * 5 + 4];
-//         area[i] = (x2[i] - x1[i] + 1) * (y2[i] - y1[i] + 1);
-//     }
-
-//     int *sorted_indices = (int *)malloc(num_boxes * sizeof(int));
-//     for (int i = 0; i < num_boxes; ++i) {
-//         sorted_indices[i] = i;
-//     }
-
-//     // Sort indices by scores
-//     for (int i = 0; i < num_boxes - 1; ++i) {
-//         for (int j = i + 1; j < num_boxes; ++j) {
-//             if (s[sorted_indices[i]] < s[sorted_indices[j]]) {
-//                 int temp = sorted_indices[i];
-//                 sorted_indices[i] = sorted_indices[j];
-//                 sorted_indices[j] = temp;
-//             }
-//         }
-//     }
-
-//     int count = 0;
-//     for (int i = 0; i < num_boxes; ++i) {
-//         int idx = sorted_indices[i];
-//         int keep = 1;
-//         for (int j = 0; j < count; ++j) {
-//             int other_idx = pick[j];
-//             float xx1 = fmaxf(x1[idx], x1[other_idx]);
-//             float yy1 = fmaxf(y1[idx], y1[other_idx]);
-//             float xx2 = fminf(x2[idx], x2[other_idx]);
-//             float yy2 = fminf(y2[idx], y2[other_idx]);
-
-//             float w = fmaxf(0.0f, xx2 - xx1 + 1);
-//             float h = fmaxf(0.0f, yy2 - yy1 + 1);
-//             float inter = w * h;
-
-//             float o;
-//             if (strcmp(method, "Min") == 0) {
-//                 o = inter / fminf(area[idx], area[other_idx]);
-//             } else {
-//                 o = inter / (area[idx] + area[other_idx] - inter);
-//             }
-
-//             if (o > threshold) {
-//                 keep = 0;
-//                 break;
-//             }
-//         }
-//         if (keep) {
-//             pick[count++] = idx;
-//         }
-//     }
-
-//     *num_pick = count;
-
-//     free(x1);
-//     free(y1);
-//     free(x2);
-//     free(y2);
-//     free(s);
-//     free(area);
-//     free(sorted_indices);
-// }
 
 // add channel size
 BoundingBox* BBOX_create(u8 index, float q1_x, float q1_y, float q2_x, float q2_y, float score, float nscore, float dx1, float dy1, float dx2, float dy2){
@@ -278,21 +185,6 @@ void generate_bounding_boxes(Layer * layer_imap, Layer *reg, int width, int heig
 
         append_bbox(boundingbox, *bbox_ins);
 
-
-
-
-        // (*boundingbox)[i].index =
-        // (*boundingbox)[i].q1_x  = q1_x;
-        // (*boundingbox)[i].q1_y  = q1_y;
-        // (*boundingbox)[i].q2_x  = q2_x;
-        // (*boundingbox)[i].q2_y  = q2_y;
-        // (*boundingbox)[i].score = score;
-        // (*boundingbox)[i].nscore = nscore;
-        // (*boundingbox)[i].dx1   = dx1;
-        // (*boundingbox)[i].dy1   = dy1;
-        // (*boundingbox)[i].dx2   = dx2;
-        // (*boundingbox)[i].dy2   = dy2;
-
         printf("I(%d) X(%d) Y(%d) score(%f) nscore(%f) q1_x(%f) q1_y(%f) q2_x(%f) q2_y(%f) dx1(%f) dy1(%f) dx2(%f) dy2(%f)\n",
             i, x, y, score, nscore, q1_x + dx1, q1_y + dy1, q2_x + dx2, q2_y + dy2, dx1, dy1, dx2, dy2
         );
@@ -302,105 +194,30 @@ void generate_bounding_boxes(Layer * layer_imap, Layer *reg, int width, int heig
     free(temp_boxes);
 }
 
-// void threshold_scores(Layer *layer, float threshold, BoundingBox* boxes, int* num_boxes) {
-//     int height = layer->output_channels.channels->data.height;
-//     int width  = layer->output_channels.channels->data.width;
-//     *num_boxes = 0;
-
-//     Channel_Node *second = layer->output_channels.channels->next;
-
-//     float *chan = (float*)second->data.output_ptr;
-
-//     for (int y = 0; y < height; y++) {
-//         for (int x = 0; x < width; x++) {
-//             float face_score = chan[(y*height)+x]; 
-//             if (face_score > threshold) {
-//                 boxes[*num_boxes].x = x;
-//                 boxes[*num_boxes].y = y;
-//                 boxes[*num_boxes].score = face_score;
-//                 (*num_boxes)++;
-//             }
-//         }
-//     }
-// }
-
-// void apply_offsets(Layer *layer, BoundingBox* boxes, int num_boxes) {
-//     Channel_Node *chan_node_1 = layer->output_channels.channels;
-//     Channel_Node *chan_node_2 = chan_node_1->next;
-//     Channel_Node *chan_node_3 = chan_node_2->next;
-//     Channel_Node *chan_node_4 = chan_node_3->next;
-
-//     int height = chan_node_1->data.height;
-//     int width  = chan_node_1->data.width;
-
-//     for (int i = 0; i < num_boxes; i++) {
-//         int x = (int)boxes[i].x;
-//         int y = (int)boxes[i].y;
-//         float dx = *(float*)&chan_node_1->data.output_ptr[(y*height)+x];
-//         float dy = *(float*)&chan_node_2->data.output_ptr[(y*height)+x];
-//         float dw = *(float*)&chan_node_3->data.output_ptr[(y*height)+x];
-//         float dh = *(float*)&chan_node_4->data.output_ptr[(y*height)+x];
-//         printf("box %d -  (%d, %d) dx(%f) dy(%f) dw(%f) dh(%f) \n", i, x, y, dx, dy, dw, dh);
-
-//         boxes[i].x = x - dx * width;
-//         boxes[i].y = y - dy * height;
-//         boxes[i].w = width + dw * width;
-//         boxes[i].h = height + dh * height;
-//     }
-// }
 
 float calculate_iou(BoundingBox box1, BoundingBox box2) {
 
-
-    printf("calculate_iou start first(%d) second(%d) \n", box1.index, box2.index);
     float x1 = fmax(box1.q1_x, box2.q1_x);
     float y1 = fmax(box1.q1_y, box2.q1_y);
     float x2 = fmin(box1.q2_x, box2.q2_x);
     float y2 = fmin(box1.q2_y, box2.q2_y);
-    printf("calculate_iou start 1 \n");
+
     float inter_area = fmax(0, x2 - x1) * fmax(0, y2 - y1);
     float box1_area = (box1.q2_x - box1.q1_x) * (box1.q2_y - box1.q1_y);
     float box2_area = (box2.q2_x - box2.q1_x) * (box2.q2_y - box2.q1_y);
-    printf("calculate_iou start 2 \n");
+
     if ((inter_area == 0 || ((box1_area + box2_area - inter_area) == 0))){
-        printf("calculate_iou 0 \n");
         return 0.0f;
     }
 
     printf("inter area %f : (%f, %f) - (%f, %f) \n", (inter_area / (box1_area + box2_area - inter_area)), 
         box1.q1_x, box1.q1_y, box2.q1_x, box2.q1_y);
-    printf("calculate_iou end \n");
     return inter_area / (box1_area + box2_area - inter_area);
 }
-
-// #define NMS_THRESHOLD 0.5
 
 void non_max_suppression(BoundingBox_Node* boxes, int *num_boxes) {
     BoundingBox_Node* upper = boxes;
     BoundingBox_Node* inner = boxes;
-    // u8* keep = (u8*)malloc(*num_boxes * sizeof(u8));
-    // for (int i = 0; i < *num_boxes; i++) {
-    //     keep[i] = 1;
-    // }
-
-    // for (int i = 0; i < *num_boxes; i++) {
-    //     if (!keep[i]) continue;
-    //     for (int j = i + 1; j < *num_boxes; j++) {
-    //         if (keep[j] && calculate_iou(boxes[i], boxes[j]) > NMS_THRESHOLD) {
-    //             keep[j] = 0;
-    //         }
-    //     }
-    // }
-
-    // int k = 0;
-    // for (int i = 0; i < *num_boxes; i++) {
-    //     if (keep[i]) {
-    //         boxes[k++] = boxes[i];
-    //     }
-    // }
-    // *num_boxes = k;
-
-    // free(keep);
 
     // check whether the channel loaded
     if(upper == NULL || inner == NULL){
@@ -438,13 +255,6 @@ void non_max_suppression(BoundingBox_Node* boxes, int *num_boxes) {
         upper->data.index = count;
         count++;
         upper = upper->next;
-
-        //rerec(&upper->data);
-        //adjust_box(&upper->data);
-        // printf("R I(%d) score(%f) nscore(%f) q1_x(%f) q1_y(%f) q2_x(%f) q2_y(%f) dx1(%f) dy1(%f) dx2(%f) dy2(%f)\n",
-        //     upper->data.index, upper->data.score, upper->data.nscore, upper->data.q1_x, upper->data.q1_y , 
-        //     upper->data.q2_x, upper->data.q2_y, upper->data.dx1, upper->data.dy1, upper->data.dx2, upper->data.dy2
-        // );
     }
 
     *num_boxes = count;

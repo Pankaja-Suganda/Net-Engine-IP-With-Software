@@ -4,8 +4,6 @@
 
 #include "layer.h"
 
-
-
 typedef struct {
     u8    index;
     float dx1;
@@ -25,23 +23,6 @@ typedef struct BoundingBox_Node_{
     BoundingBox              data;
 } BoundingBox_Node;
 
-
-// // apply thresholding to the scores
-// void threshold_scores(Layer *layer, float threshold, BoundingBox* boxes, int* num_boxes);
-
-// // apply bounding box offsets
-// void apply_offsets(Layer *layer, BoundingBox* boxes, int num_boxes);
-
-// // Helper function to calculate Intersection over Union (IoU)
-// float calculate_iou(BoundingBox box1, BoundingBox box2);
-
-// // Non-max suppression (NMS) to filter overlapping boxes
-// void non_max_suppression(BoundingBox* boxes, int* num_boxes);;
-
-// Utility function to perform NMS
-// void non_maximum_suppression(float *boxes, int num_boxes, float threshold, const char *method, int *pick, int *num_pick);
-
-// Function to generate bounding boxes from CNN outputs
 void generate_bounding_boxes(Layer * layer_imap, Layer *reg, int width, int height, float scale, float threshold, BoundingBox_Node **boundingbox, int *num_boxes);
 
 void image_resize(float* input, float* output, u32 height, u32 width, float scale_factor);
