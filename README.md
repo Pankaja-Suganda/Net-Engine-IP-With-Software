@@ -1,4 +1,4 @@
-# Net-Engine FPGA with Software
+# Net-Engine IP with Software
 
 This project provides an FPGA-based hardware accelerator called the **Net Engine** for improving the performance of convolutional neural networks (CNNs) on embedded system. The system accelerates tasks like convolution and max-pooling by offloading them from the CPU to the FPGA.
 
