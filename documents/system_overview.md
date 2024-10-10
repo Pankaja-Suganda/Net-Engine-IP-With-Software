@@ -1,6 +1,6 @@
 # System Overview
 
-This project focuses on the design and implementation of a hardware-accelerated solution for real-time facial computing on resource-constrained edge devices. The entire system is implemented and evaluated on a **PYNQ-Z2** development board, which features both a Processing System (PS) and Programmable Logic (PL) to enhance overall performance and efficiency.
+This project focuses on the design and implementation of a hardware-accelerated solution for real-time facial computing on embedded devices. The entire system is implemented and evaluated on a **PYNQ-Z2** development board, which features both a Processing System (PS) and Programmable Logic (PL) to enhance overall performance and efficiency.
 
 ## Architecture
 
@@ -10,7 +10,7 @@ The data and control flows are optimized through the use of **Direct Memory Acce
 
 ### Key Features
 
-- **High Performance**: The architecture is designed to achieve a balance between high performance, low latency, and energy efficiency, making it suitable for a diverse range of edge AI applications.
+- **High Performance**: The architecture is designed to achieve a balance between high performance, low latency, and energy efficiency respect to the pure software implementation.
 
 - **Integration of Components**: The system design integrates several critical components to facilitate efficient data processing and communication between the PL and PS sides:
   - **Net Engine IP**: Executes Convolution and Max-pooling tasks.
@@ -21,7 +21,7 @@ The data and control flows are optimized through the use of **Direct Memory Acce
 ### Diagram
 
 ![High-Level System Design](../images/high-level-system-design.png)  
-*Figure 1: High-Level System Design*
+<p align="center">Figure : High-Level System Design</p>
 
 As depicted in the diagram, the architecture supports real-time facial computing and is adaptable for other computing applications that require Convolution and Max-pooling operations. This versatility offers a scalable solution for embedded systems, enabling efficient predictions and outputs.
 

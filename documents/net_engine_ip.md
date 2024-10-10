@@ -109,8 +109,8 @@ The convolution module is designed to perform the convolution operation commonly
 
 The convolution module processes input data through five stages: multiplication, summation, bias addition, and output validation. It handles cases where the bias is zero efficiently.
 
-![Convolution Pipeline Sequence Diagram](../images/convolution_pipeline_sequence_diagram.png)  
-*Figure 6: Convolutional Pipeline Sequence Diagram*
+![Convolution Pipeline Sequence Diagram](../images/convolution_pipeline_sequence_diagram.png) 
+<p align="center">Figure : Convolutional Pipeline Sequence Diagram</p> 
 
 ### Breakdown of Stages
 

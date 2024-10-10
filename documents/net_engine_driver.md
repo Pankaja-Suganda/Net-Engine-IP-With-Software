@@ -50,7 +50,7 @@ The driver employs a well-defined data flow to maximize efficiency:
 The following sequence diagram illustrates the interactions between the Processing System, Net Engine Driver, and Net Engine IP during the processing of input data:
 
 ![Net Engine Driver Sequence Diagram](../images/sequence-diagram-net-engine-driver-implementation.png)  
-*Figure 1: Sequence Diagram for Net Engine Driver Operations*
+<p align="center">Figure : Sequence Diagram for Net Engine Driver Operations</p> 
 
 **Description of Sequence Steps**:
 1. **Initialization**: The driver initializes the Net Engine IP.
