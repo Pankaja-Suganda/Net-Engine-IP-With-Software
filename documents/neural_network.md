@@ -118,4 +118,4 @@ void LAYER_CNN_1_init_cb(Layer *layer, Layer prev_layer) {
 }
 ```
 
-[Back to Home](./)
+[Back to Home](./../)

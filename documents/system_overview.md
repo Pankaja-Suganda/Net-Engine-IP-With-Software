@@ -29,4 +29,4 @@ As depicted in the diagram, the architecture supports real-time facial computing
 
 The proposed system architecture demonstrates an effective integration of hardware and software components, delivering a powerful solution for real-time facial computing on edge devices. Its design allows for easy adaptation to various applications, making it a valuable asset for developers and researchers in the
 
-[Back to Home](./)
+[Back to Home](./../)
