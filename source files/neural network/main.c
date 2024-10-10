@@ -278,52 +278,6 @@ void LAYER_MAXPOOLING_1_init_cb(Layer *layer, Layer prev_layer){
 }
 
 
-#define STRIDE 2
-#define CELLSIZE 12
-
-
-// // Function to generate bounding boxes
-// void generate_bounding_boxes(float* imap, float* reg, float* scale, float threshold, int height, int width, float* bounding_boxes, int* num_boxes) {
-//     int size = height * width;
-//     float* dx1 = reg;
-//     float* dy1 = reg + size;
-//     float* dx2 = reg + 2 * size;
-//     float* dy2 = reg + 3 * size;
-    
-//     float* temp_boxes = (float*)malloc(size * 6 * sizeof(float));
-//     int temp_num_boxes = 0;
-    
-//     for (int i = 0; i < size; ++i) {
-//         if (imap[i] >= threshold) {
-//             int y = i / width;
-//             int x = i % width;
-            
-//             float score = imap[i];
-//             float* reg_offsets = &reg[i * 4];
-            
-//             float q1x = (STRIDE * x + 1) / (*scale);
-//             float q1y = (STRIDE * y + 1) / (*scale);
-//             float q2x = (STRIDE * x + CELLSIZE) / (*scale);
-//             float q2y = (STRIDE * y + CELLSIZE) / (*scale);
-            
-//             temp_boxes[temp_num_boxes * 6 + 0] = q1x;
-//             temp_boxes[temp_num_boxes * 6 + 1] = q1y;
-//             temp_boxes[temp_num_boxes * 6 + 2] = q2x;
-//             temp_boxes[temp_num_boxes * 6 + 3] = q2y;
-//             temp_boxes[temp_num_boxes * 6 + 4] = score;
-//             temp_boxes[temp_num_boxes * 6 + 5] = score; 
-            
-//             ++temp_num_boxes;
-//         }
-//     }
-    
-//     *num_boxes = temp_num_boxes;
-//     memcpy(bounding_boxes, temp_boxes, temp_num_boxes * 6 * sizeof(float));
-    
-//     free(temp_boxes);
-// }
-
-
 #define CONF_THRESHOLD 0.5
 #define NMS_THRESHOLD 0.5
 #define IMAGE_SIZE 45
@@ -375,11 +329,12 @@ int main() {
     float threshold = 0.5f; // Example threshold
     // static float bounding_boxes[45 * 45 * 6]; // Allocate space for bounding boxes
     int num_boxes = 0;
-
-    // Task code
-    xil_printf("System Task\r\n");
     int i = 0;
+    float scales[4] = {0.6, 0.42539999999999994, 0.30160859999999995};
+    int out_width = 0;
     measure_init();
+
+    xil_printf("System Task\r\n");
 
     NEURAL_NETWORK_init(&pnet_model, (u32*)NN_RECEIVE_MEM_BASE);
     prev_layer = NEURAL_NETWORK_add_layer(pnet_model, LAYER_TYPE_CNN_3X3,        (Layer_init_cb*)LAYER_CNN_1_init_cb,        NULL,       (u32*) NN_MEM_POOL_1_BASE, NN_MEM_POOL_1_LEN, LAYER_ACTIVATION_RELU);
@@ -391,21 +346,10 @@ int main() {
     // branch 2
     prev_layer_2 = NEURAL_NETWORK_add_layer(pnet_model, LAYER_TYPE_CNN_1X1,      (Layer_init_cb*)LAYER_CNN_5_init_cb,        prev_layer, (u32*) NN_MEM_POOL_1_BASE, NN_MEM_POOL_1_LEN, LAYER_ACTIVATION_NOT_REQUIRED);
 
-
-
-
-
-
-    //NEURAL_NETWORK_layer_link(pnet_model);
-
-    // Test_NN_Model(pnet_model);
     BoundingBox_Node *boundingboxs      = NULL;
     BoundingBox_Node *boundingboxs_list = NULL;
 
-    // float scales[9] = {1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6};
 
-    float scales[4] = {0.6, 0.42539999999999994, 0.30160859999999995};
-    int out_width = 0;
 
     // TickType_t tickCount = xTaskGetTickCount();
     for(int k = 0; k < 10; k++){
@@ -448,12 +392,10 @@ int main() {
 
     xil_printf("completed \n");
 
-    // Test_NN_Model(pnet_model);
 
     while(TRUE){
         xil_printf("System Task Running\r\n");
 
-        // vTaskDelay(100);
     }
 
     return 0;

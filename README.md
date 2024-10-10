@@ -1,36 +1,58 @@
-# Net Engine FPGA with Software
+# Net-Engine FPGA with Software
 
-## Overview
+This project provides an FPGA-based hardware accelerator called the **Net Engine** for improving the performance of convolutional neural networks (CNNs) on embedded system. The system accelerates tasks like convolution and max-pooling by offloading them from the CPU to the FPGA.
 
-This project implements a hardware-accelerated Convolutional Neural Network (CNN) using a custom Net Engine in Verilog and a driver in C. The architecture is designed for efficient image processing, specifically for face detection using the Multi-Task Cascaded Convolutional Network (MTCNN) framework.
+## Project Overview
 
-## Table of Contents
+The **Net Engine** enhances real-time facial computing by speeding up the execution of deep learning models. The project includes the FPGA hardware design, software drivers, pre-trained neural network models, and test data.
 
-- [Features](#features)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-- [Folder Structure](#folder-structure)
-- [Usage](#usage)
-- [Testing](#testing)
-- [License](#license)
-- [Contributing](#contributing)
+## Implementation
 
-## Features
+To verify and measure performance, the **Net Engine IP** and **Net Engine Driver** were used to implement the **Proposed Network** for detecting facial bounding boxes. 
 
-TBD
+- **Net Engine IP**: A hardware IP core designed for efficient convolution operations.
+- **Net Engine Driver**: A driver that facilitates communication/ manipulation between the hardware IP and the processing system.
 
-## Architecture
+## Folder Structure
 
-TBD
+```plaintext
+Net-Engine-FPGA-With-Software
+├───data                     # Input and output data for testing and validation
+├───documents                # Detailed documentation and design diagrams
+├───images                   # Image files related to the project
+├───model                    # Pre-trained model weights for testing
+└───source files             # Source code and hardware design files
+    ├───net engine driver    # C code for the Net Engine driver
+    ├───net engine ip        # Verilog files for the custom IP core
+    │   ├───sources          # Verilog source files for the Net Engine IP
+    │   └───test bench       # Testbenches for verifying IP functionality
+    └───neural network       # Neural network component used for testing
+```
 
-## Getting Started
+# Key Components
 
-TBD
+## Net Engine IP
+The Net Engine IP is a custom FPGA block designed to perform 2D convolution and max-pooling operations. It accelerates deep learning tasks by offloading these operations from the CPU to the FPGA. 
+Links:
+- [Net Engine IP Documentation](./documents/net_engine_ip.md).
+- [Source Folder](./source%20files/net%20engine%20ip/sources/).
 
-### Prerequisites
+## Net Engine Driver
+The Net Engine Driver is software that configures the Net Engine and manages data transfer between the CPU and the FPGA.
+Links:
+- [Net Engine Driver Implementation Documentation](./documents/net_engine_driver.md).
+- [Source Folder](./source%20files/net%20engine%20driver/).
 
-TBD
 
-### Installation
+## Neural Network Implementation
+The neural Network Implementation is software component, that can be used to predict a output using above mentioned components. 
+Links:
+- [Simple Neural Network Implementation Documentation](./documents/net_engine_driver.md).
+- [Source Folder](./source%20files/neural%20network/).
 
-TBD
+## Additional Resources
+- Detailed technical documentation is available in the [Dissertation](./academic/).
+- A visual presentation of the implementation and summarized results can be found in the [Project Presentation](./academic/).
+
+
+
