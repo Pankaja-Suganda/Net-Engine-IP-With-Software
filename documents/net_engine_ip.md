@@ -192,3 +192,5 @@ The Convolution and Max-Pooling modules are implemented to operate efficiently w
 The Net Engine IP is a vital component of the hardware-accelerated solution for real-time facial computing. By providing efficient convolution and max-pooling operations on an FPGA, it allows for high-performance and low-latency processing, making it suitable for various AI applications.
 
 For implementation details, refer to the HDL source code in the `source files/net engine ip` directory.
+
+[Back to Home](./)

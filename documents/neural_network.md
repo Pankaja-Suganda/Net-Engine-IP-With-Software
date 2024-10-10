@@ -117,3 +117,5 @@ void LAYER_CNN_1_init_cb(Layer *layer, Layer prev_layer) {
     LAYER_add_cnn_output_channels(&layer, (void*)&layer_1_f10_weights, (void*)&PRelu_Layer_2_10_weights, 10, (INPUT_SIZE-2), (INPUT_SIZE-2));
 }
 ```
+
+[Back to Home](./)
