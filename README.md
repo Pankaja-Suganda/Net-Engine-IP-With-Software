@@ -31,6 +31,8 @@ Net-Engine-FPGA-With-Software
 
 # Key Components
 
+## System Overview
+For a detailed explanation of the system's architecture and design, please refer to the [System Overview](./documents/system_overview.md).
 ## Net Engine IP
 The Net Engine IP is a custom FPGA block designed to perform 2D convolution and max-pooling operations. It accelerates deep learning tasks by offloading these operations from the CPU to the FPGA. 
 Links:
@@ -47,12 +49,12 @@ Links:
 ## Neural Network Implementation
 The neural Network Implementation is software component, that can be used to predict a output using above mentioned components. 
 Links:
-- [Simple Neural Network Implementation Documentation](./documents/net_engine_driver.md).
+- [Simple Neural Network Implementation Documentation](./documents/neural_network.md).
 - [Source Folder](./source%20files/neural%20network/).
 
 ## Additional Resources
-- Detailed technical documentation is available in the [Dissertation](./academic/).
-- A visual presentation of the implementation and summarized results can be found in the [Project Presentation](./academic/).
+- Detailed technical documentation is available in the [Dissertation](./academic/Dissertation-23PG1-015.pdf).
+- A visual presentation of the implementation and summarized results can be found in the [Project Presentation](./academic/Presentation-23PG1-015.pptx).
 
 
 
