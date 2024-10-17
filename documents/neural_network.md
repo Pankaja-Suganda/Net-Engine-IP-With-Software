@@ -2,7 +2,7 @@
 
 The neural network module is a fundamental part of the system, consisting of several components such as layers, channels, and kernels. Before processing begins, the weights and biases for each layer are stored in a static memory location on the Processing System (PS).
 
-![Neural Network Component Sequence Diagram](../images/neural_network_sequence_diagram.png)  
+![Neural Network Component Sequence Diagram](../images/nn.png)  
 <p align="center">Figure : The Sequence Diagram of the Neural Network Component</p>
 
 ## Overview
